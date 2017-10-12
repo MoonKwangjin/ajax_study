@@ -6,7 +6,7 @@ from django.conf.urls import url
 
 class PostPagination(PageNumberPagination):
     page_size = 10
-    
+
 class PostListAPIView(generics.ListAPIView): # CBV
     queryset = Post.objects.all()
     serializer_class = PostSerializer
