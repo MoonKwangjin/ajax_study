@@ -47,7 +47,7 @@
                 done(function (json_obj) {
                     var $modal = $('#post-modal');
                     $modal.find('.modal-title').html(json_obj.title);
-                    $modal.find('.modal-body').html(json_obj.summary);
+                    $modal.find('.modal-body').html(json_obj.summary );
                     $modal.find('.btn-detail').attr('href', detail_url);
                     $modal.modal();
                 }).
