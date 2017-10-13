@@ -5,6 +5,7 @@ from .models import Post,Comment
 from django.http import JsonResponse, HttpResponse
 from rest_framework.renderers import JSONRenderer
 from .serializers import PostSerializer
+from .form import CommentForm
 from django.template.defaultfilters import truncatewords
 
 class PostListView(ListView):
@@ -43,8 +44,9 @@ post_delete = PostDeleteView.as_view()
 
 class CommentCreateView(CreateView):
      model = Comment
-     fields = ['message']
+     form_class = CommentForm
 
+     #폼클래스 정의가 필요함
      def form_valid(self, form):
           comment = form.save(commit=False)
           comment.post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
