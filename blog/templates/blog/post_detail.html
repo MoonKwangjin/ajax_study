@@ -3,8 +3,9 @@
 {%  block extra_body %}
     <script>
         $(function () {
-            var raw_template = $('#comment-template').html()//문자열을다가져옴
+            var raw_template = $('#comment-template').html();
             var tpl = _.template(raw_template);
+
             $("#comment-form").submit(function (e) {
                 e.preventDefault();
                 var $form = $(this);//Jquery 래핑 객체 만들기
@@ -20,6 +21,7 @@
                     }
                     else {
                         $('#comment-list').prepend(tpl(obj));
+
                         $form[0].reset();
                     }
                 }).
@@ -88,17 +90,13 @@
         </div>
     </div>
     <script type="text/x-template" id="comment-template">
-        {#변수정의#}
         <li id="comment-<%= id %>">
             <%= message %>
             &dash;
             <a href="<%= edit_url %>">
                 <small><%= updated_at %></small>
             </a>
-            <a href="<%= delete_url %>"
-               class="ajax-post-confirm"
-               data-target-id="comment-<%= id %>"
-               data-message="정말 삭제하시겠습니까?">
+            <a href="<%= delete_url %>" class="ajax-post-confirm" data-target-id="comment-<%= id %>" data-message="정말 삭제하시겠습니까?">
                 <small>삭제</small>
             </a>
         </li>
