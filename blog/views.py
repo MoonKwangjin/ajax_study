@@ -31,7 +31,13 @@ class PostDetailView(DetailView):
                     'title' : self.object.title,
                     'summary' : truncatewords(self.object.content,100),
                })
-          return super().render_to_response(context)#템플린 렌더링
+          # 템플린 렌더링
+          return super().render_to_response(context)
+
+     def get_context_data(self, **kwargs):
+          context= super().get_context_data(**kwargs)
+          context['comment_form'] = CommentForm()
+          return context
 
 post_detail = PostDetailView.as_view()
 
