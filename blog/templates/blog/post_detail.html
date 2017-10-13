@@ -8,26 +8,35 @@
 
             $("#comment-form").submit(function (e) {
                 e.preventDefault();
+
                 var $form = $(this);//Jquery 래핑 객체 만들기
+                var $submit = $form.find('[type=submit]');
+
+                $submit.prop('disabled', true); // 요청 전에
+
                 var url = $form.attr('action');
                 var data = $form.serialize();//url encoded 된 데이터
 
-                $.post(url, data).
-                done(function (obj) {
-                    console.log("--done--");
-                    console.log(obj);
-                    if ( obj.is_success === false ) {
-                        alert(obj.message);
-                    }
-                    else {
-                        $('#comment-list').prepend(tpl(obj));
+                $.post(url, data)
+                    .done(function (obj) {
+                        console.log("--done--");
+                        console.log(obj);
+                        if ( obj.is_success === false ) {
+                            alert(obj.message);
+                        }
+                        else {
+                            $('#comment-list').prepend(tpl(obj));
 
-                        $form[0].reset();
-                    }
-                }).
-                fail(function (xhr, textStatus, error) {
-                    alert('failed : ' + error);
-                });
+                            $form[0].reset();
+                        }
+                    })
+                    .fail(function (xhr, textStatus, error) {
+                        alert('failed : ' + error);
+                    })
+                    .always(function () {
+                        $submit.prop('disabled', false);
+                    });
+
             });
 
             $(document).on('click','.ajax-post-confirm', function (e) {
@@ -37,13 +46,13 @@
                 var message = $(this).data('message');
 
                 if(confirm(message)){
-                    $.post(url).
-                    done(function () {
-                        $('#'+ target_id).remove();
-                    }).
-                    fail(function (xhr, textStatus, error) {
-                        alert('failed : '+ error);
-                    });
+                    $.post(url)
+                        .done(function () {
+                            $('#'+ target_id).remove();
+                        })
+                        .fail(function (xhr, textStatus, error) {
+                            alert('failed : '+ error);
+                        });
                 }
             });
         });
